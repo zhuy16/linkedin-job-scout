@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  macOS launchd agent — runs Job Scout every day at 08:30 AM.
+
+  SETUP (three steps):
+    1. Edit the two paths marked ← UPDATE below
+    2. cp scheduler/com.jobscout.daily.plist ~/Library/LaunchAgents/
+    3. launchctl load ~/Library/LaunchAgents/com.jobscout.daily.plist
+
+  Verify it loaded:
+    launchctl list | grep jobscout
+
+  Run it manually right now:
+    launchctl start com.jobscout.daily
+
+  Unload / disable:
+    launchctl unload ~/Library/LaunchAgents/com.jobscout.daily.plist
+-->
+<plist version="1.0">
+<dict>
+
+  <key>Label</key>
+  <string>com.jobscout.daily</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <!-- ← UPDATE: absolute path to the python inside your venv -->
+    <string>/Users/YOUR_USERNAME/Documents/gitrepos/LinkedIn_JobSearch/.venv/bin/python</string>
+    <string>run.py</string>
+    <string>--headless</string>
+  </array>
+
+  <!-- ← UPDATE: absolute path to the project root -->
+  <key>WorkingDirectory</key>
+  <string>/Users/YOUR_USERNAME/Documents/gitrepos/LinkedIn_JobSearch</string>
+
+  <!-- Run daily at 08:30 AM local time -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>   <integer>8</integer>
+    <key>Minute</key> <integer>30</integer>
+  </dict>
+
+  <!-- Log stdout/stderr to the data/ folder (gitignored) -->
+  <key>StandardOutPath</key>
+  <string>/Users/YOUR_USERNAME/Documents/gitrepos/LinkedIn_JobSearch/data/launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/YOUR_USERNAME/Documents/gitrepos/LinkedIn_JobSearch/data/launchd.err</string>
+
+  <!-- Do NOT run immediately when loaded (only on schedule) -->
+  <key>RunAtLoad</key>
+  <false/>
+
+</dict>
+</plist>

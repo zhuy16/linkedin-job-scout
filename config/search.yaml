@@ -1,0 +1,27 @@
+# ── Search parameters ─────────────────────────────────────────────────────────
+
+# LinkedIn keyword query (boolean syntax is supported in the search box)
+query: '("Bioinformatics" OR "Computational Biology") NOT ("intern" OR "tutor")'
+
+# Post-processing filter: skip any job whose title OR description contains these words.
+# Catches roles that slip past the NOT clause in the query string.
+skip_keywords:
+  - "intern"
+  - "internship"
+  - "tutor"
+  - "tutoring"
+
+# How many days back to search (1 = jobs posted in the last 24 h)
+days_back: 1
+
+# Maximum number of jobs to fetch and score per run
+max_jobs: 30
+
+# ── Scoring ───────────────────────────────────────────────────────────────────
+
+# Only send an email alert if fit_score >= this value (0–100)
+fit_threshold: 60
+
+# Anthropic model to use for scoring.
+# Check https://docs.anthropic.com/en/docs/about-claude/models for the latest model IDs.
+llm_model: "claude-sonnet-4-5"

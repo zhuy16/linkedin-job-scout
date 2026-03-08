@@ -1,0 +1,47 @@
+══════════════════════════════════════════════════════════════════════════════
+ CANDIDATE PROFILE — TEMPLATE
+══════════════════════════════════════════════════════════════════════════════
+ Copy this file:  cp private/profile_summary.example.txt private/profile_summary.txt
+ Then REPLACE the content below with your actual background.
+ This file is gitignored — it is never uploaded to GitHub.
+ The more specific and honest you are, the better the LLM scores.
+══════════════════════════════════════════════════════════════════════════════
+
+=== EXPERIENCE & SKILLS ===
+- PhD in Computational Biology / Bioinformatics (or equivalent)
+- 5+ years experience in bioinformatics, single-cell genomics, immunology, oncology
+- Strong Python (pandas, numpy, scikit-learn, PyTorch) and R
+- Single-cell RNA-seq, ATAC-seq, spatial transcriptomics analysis and pipeline development
+- Familiarity with cloud platforms (AWS/GCP), HPC clusters, Snakemake/Nextflow
+- Growing focus on LLM/AI applications in biology and healthcare
+
+=== TARGET ROLES ===
+- Computational Biologist / Bioinformatics Scientist (mid–senior level)
+- Senior Data Scientist with life-sciences focus
+- Machine Learning / Applied Scientist in healthcare or biotech
+- Research Scientist (computational, not purely wet-lab)
+
+=== PREFERRED INDUSTRIES ===
+- Biotechnology, pharma, diagnostics, precision medicine
+- Healthcare AI / digital health
+- Academic research (senior / faculty / staff scientist level)
+
+=== NOT INTERESTED IN ===
+- Generic software engineering with no biology component
+- ERP, product analytics, or retail data science
+- Internships or short-term contracts (< 6 months)
+- Roles clearly aimed at fresh graduates (< 2 years experience expected)
+
+=== LOCATION PREFERENCES ===
+- Remote or hybrid strongly preferred
+- Open to on-site in [YOUR PREFERRED CITIES — e.g., Boston, San Francisco, Seattle]
+- Not willing to relocate to [YOUR EXCLUDED CITIES / REGIONS]
+
+=== SALARY EXPECTATIONS ===
+- [YOUR RANGE — e.g., $140k–$180k base + equity]
+
+=== ADDITIONAL CONTEXT ===
+- Actively seeking new opportunities as of early 2026
+- Particularly excited about AI/ML applied to single-cell genomics and drug discovery
+- Peer-reviewed publications in computational biology and immunology
+- Looking for roles where computational work is central, not supporting

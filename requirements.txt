@@ -1,0 +1,6 @@
+anthropic>=0.40.0
+selenium>=4.18.0
+undetected-chromedriver>=3.5.5
+python-dotenv>=1.0.0
+PyYAML>=6.0.1
+schedule>=1.2.1

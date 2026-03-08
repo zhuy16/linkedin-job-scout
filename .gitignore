@@ -1,0 +1,35 @@
+# ── Private credentials & local data ─────────────────────────────────────────
+secrets/.env
+private/profile_summary.txt
+
+# ── Generated / runtime data ─────────────────────────────────────────────────
+data/
+!data/.gitkeep
+*.db
+*.log
+
+# ── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+
+# ── macOS ─────────────────────────────────────────────────────────────────────
+.DS_Store
+*.DS_Store
+
+# ── VS Code ───────────────────────────────────────────────────────────────────
+.vscode/settings.json
+.vscode/launch.json
+
+# ── Screenshots (debug output) ────────────────────────────────────────────────
+data/screenshots/
