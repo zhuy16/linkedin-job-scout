@@ -42,37 +42,45 @@ def _sleep(lo: float = 1.0, hi: float = 3.0) -> None:
 
 
 def _try_text(driver, selectors: List[str]) -> str:
-    """Try a list of CSS selectors and return the text of the first match."""
-    for sel in selectors:
-        try:
-            el = driver.find_element(By.CSS_SELECTOR, sel)
-            text = el.text.strip()
-            if text:
-                return text
-        except (NoSuchElementException, StaleElementReferenceException):
-            continue
-    return ""
+    """Try a list of CSS selectors; return the text of the first match.
+    Uses a single JS call to avoid repeated implicit-wait penalties."""
+    selector_list = ", ".join(selectors)
+    try:
+        result = driver.execute_script(
+            "var el = document.querySelector(arguments[0]); "
+            "return el ? (el.innerText || el.textContent || '').trim() : '';",
+            selector_list,
+        )
+        return result or ""
+    except Exception:
+        return ""
 
 
 def _try_attr(driver, selectors: List[str], attr: str) -> str:
-    for sel in selectors:
-        try:
-            el = driver.find_element(By.CSS_SELECTOR, sel)
-            val = (el.get_attribute(attr) or "").strip()
-            if val:
-                return val
-        except (NoSuchElementException, StaleElementReferenceException):
-            continue
-    return ""
+    selector_list = ", ".join(selectors)
+    try:
+        result = driver.execute_script(
+            "var el = document.querySelector(arguments[0]); "
+            "return el ? (el.getAttribute(arguments[1]) || '').trim() : '';",
+            selector_list, attr,
+        )
+        return result or ""
+    except Exception:
+        return ""
 
 
 # ── selectors (multi-fallback because LinkedIn changes them regularly) ─────────
 
 _TITLE = [
     "h1.job-details-jobs-unified-top-card__job-title",
+    "h2.job-details-jobs-unified-top-card__job-title",
     "h1.jobs-unified-top-card__job-title",
+    "h2.jobs-unified-top-card__job-title",
     ".jobs-unified-top-card__job-title h1",
+    ".jobs-unified-top-card__job-title h2",
+    ".job-details-jobs-unified-top-card__job-title",
     "h2.t-24.t-bold.inline",
+    "a.job-card-list__title",
     ".topcard__title",
 ]
 _COMPANY = [
@@ -86,13 +94,21 @@ _LOCATION = [
     ".jobs-unified-top-card__bullet",
     ".topcard__flavor--bullet",
 ]
+# Ordered from most-specific to least; deliberately excludes outer skeleton
+# wrappers (#job-details, div[class*='description']) which appear before the
+# description XHR finishes, causing empty extractions.
 _DESCRIPTION = [
-    "#job-details",
+    ".show-more-less-html__markup",
+    ".jobs-description-content__text--stretch",
     ".jobs-description-content__text",
-    "article.jobs-description__container",
-    ".job-view-layout .jobs-description",
+    ".jobs-description__content .mt4",
+    ".jobs-description__content",
+    ".description__text--rich",
     ".description__text",
+    ".jobs-box__html-content",
 ]
+# Comma-joined for a single document.querySelector() call
+_DESCRIPTION_CSS = ", ".join(_DESCRIPTION)
 _SEE_MORE = [
     "button.jobs-description__footer-button",
     "button[aria-label*='more description']",
@@ -108,6 +124,7 @@ class LinkedInJobFetcher:
         self.password = password
         self.headless = headless
         self.driver: Optional[uc.Chrome] = None
+        self._search_url: str = ""
 
     # ── driver lifecycle ──────────────────────────────────────────────────────
 
@@ -119,8 +136,24 @@ class LinkedInJobFetcher:
         opts.add_argument("--disable-dev-shm-usage")
         opts.add_argument("--window-size=1440,900")
         opts.add_argument("--lang=en-US")
-        self.driver = uc.Chrome(options=opts, use_subprocess=True)
-        self.driver.implicitly_wait(5)
+        opts.add_argument("--disable-blink-features=AutomationControlled")
+        opts.add_argument("--no-first-run")
+        opts.add_argument("--no-default-browser-check")
+        opts.add_argument("--disable-default-apps")
+        # Detect installed Chrome version and pass it explicitly so
+        # undetected-chromedriver downloads a matching ChromeDriver.
+        import subprocess, re
+        try:
+            out = subprocess.check_output(
+                ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "--version"],
+                stderr=subprocess.DEVNULL,
+            ).decode()
+            version_main = int(re.search(r"(\d+)\.", out).group(1))
+            logger.info("Detected Chrome version: %s (major=%d)", out.strip(), version_main)
+        except Exception:
+            version_main = None  # let undetected-chromedriver auto-detect
+        self.driver = uc.Chrome(options=opts, use_subprocess=True, version_main=version_main)
+        self.driver.implicitly_wait(1)  # keep short — fallback loops multiply this
 
     def _quit(self) -> None:
         if self.driver:
@@ -206,12 +239,12 @@ class LinkedInJobFetcher:
     def _collect_job_ids(self, query: str, days_back: int) -> List[str]:
         tpr = f"r{days_back * 86400}"
         enc = urllib.parse.quote(query)
-        search_url = (
+        self._search_url = (
             f"https://www.linkedin.com/jobs/search/"
             f"?keywords={enc}&f_TPR={tpr}&sortBy=DD"
         )
-        logger.info("Job search URL: %s", search_url)
-        self.driver.get(search_url)
+        logger.info("Job search URL: %s", self._search_url)
+        self.driver.get(self._search_url)
         _sleep(3, 5)
 
         job_ids: List[str] = []
@@ -268,29 +301,112 @@ class LinkedInJobFetcher:
     def _fetch_detail(self, job_id: str) -> Optional[Dict]:
         url = f"https://www.linkedin.com/jobs/view/{job_id}/"
         try:
-            self.driver.get(url)
-            _sleep(2, 4)
+            # Ensure we are on the search results page so the card is clickable.
+            # LinkedIn loads job descriptions via XHR into the right panel when
+            # a card is clicked — navigating directly to /jobs/view/<id>/ often
+            # gives an empty skeleton.
+            if self._search_url not in (self.driver.current_url or ""):
+                self.driver.get(self._search_url)
+                _sleep(2, 3)
 
-            # Expand "See more" description if present
-            for sel in _SEE_MORE:
+            try:
+                card = self.driver.find_element(
+                    By.CSS_SELECTOR,
+                    f'[data-occludable-job-id="{job_id}"], '
+                    f'[data-job-id="{job_id}"]',
+                )
+                self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", card)
+                _sleep(0.3, 0.6)
+                card.click()
+                # Wait for the URL / panel to update to this specific job ID
+                # before reading the DOM — prevents stale content from previous card.
                 try:
-                    btn = WebDriverWait(self.driver, 4).until(
-                        EC.element_to_be_clickable((By.CSS_SELECTOR, sel))
-                    )
-                    btn.click()
-                    _sleep(0.5, 1.0)
-                    break
-                except (TimeoutException, NoSuchElementException):
-                    continue
+                    WebDriverWait(self.driver, 8).until(EC.url_contains(job_id))
+                except TimeoutException:
+                    pass  # some LinkedIn layouts don't update the URL; continue anyway
+            except NoSuchElementException:
+                # Card not in DOM — fall back to direct navigation
+                logger.debug("Card not found in panel for job %s, navigating directly", job_id)
+                self.driver.get(url)
+                _sleep(3, 4)
+
+            # Wait for the INNER description markup (not the outer skeleton wrapper
+            # #job-details which appears immediately before the XHR finishes).
+            # Allow up to 12 s for the right panel to populate.
+            try:
+                WebDriverWait(self.driver, 12).until(
+                    EC.presence_of_element_located((
+                        By.CSS_SELECTOR, _DESCRIPTION_CSS
+                    ))
+                )
+            except TimeoutException:
+                logger.warning("Description markup not found for job %s after 12 s", job_id)
+
+            # Expand "See more" — wait for the button to render, then click it
+            try:
+                see_more = WebDriverWait(self.driver, 4).until(
+                    EC.element_to_be_clickable((
+                        By.CSS_SELECTOR,
+                        "button.jobs-description__footer-button, "
+                        "button.show-more-less-html__button--more, "
+                        "button[aria-label*='more description'], "
+                        "button[aria-label*='Show more']",
+                    ))
+                )
+                self.driver.execute_script("arguments[0].click();", see_more)
+                _sleep(0.8, 1.2)   # wait for expanded content to render
+            except TimeoutException:
+                pass  # no "See more" button — content already fully visible
 
             title       = _try_text(self.driver, _TITLE)
             company     = _try_text(self.driver, _COMPANY)
             location    = _try_text(self.driver, _LOCATION)
             description = _try_text(self.driver, _DESCRIPTION)
 
+            logger.info("Job %s — title=%r  desc_len=%d  desc_preview=%r",
+                        job_id, title, len(description), description[:120])
+
+            # If description is suspiciously short the right-panel didn't fully
+            # render — fall back to direct navigation and try once more.
+            if len(description) < 150:
+                logger.info("Short description (%d chars) for %s — retrying via direct URL",
+                            len(description), job_id)
+                self.driver.get(url)
+                _sleep(3, 4)
+                try:
+                    WebDriverWait(self.driver, 15).until(
+                        EC.presence_of_element_located((
+                            By.CSS_SELECTOR, _DESCRIPTION_CSS
+                        ))
+                    )
+                    try:
+                        see_more2 = WebDriverWait(self.driver, 4).until(
+                            EC.element_to_be_clickable((
+                                By.CSS_SELECTOR,
+                                "button.jobs-description__footer-button, "
+                                "button.show-more-less-html__button--more",
+                            ))
+                        )
+                        self.driver.execute_script("arguments[0].click();", see_more2)
+                        _sleep(0.8, 1.2)
+                    except TimeoutException:
+                        pass
+                    title2       = _try_text(self.driver, _TITLE) or title
+                    company2     = _try_text(self.driver, _COMPANY) or company
+                    location2    = _try_text(self.driver, _LOCATION) or location
+                    description2 = _try_text(self.driver, _DESCRIPTION)
+                    if len(description2) > len(description):
+                        title, company, location, description = \
+                            title2, company2, location2, description2
+                        logger.info("Fallback succeeded — desc_len=%d", len(description))
+                except TimeoutException:
+                    logger.warning("Fallback direct-nav also timed out for %s", job_id)
+
             if not title and not description:
-                logger.warning("Could not extract content for job %s", job_id)
+                logger.warning("Could not extract content for job %s — skipping", job_id)
                 return None
+            if not description:
+                logger.warning("No description for job %s — will score with title only", job_id)
 
             return {
                 "title":       title,
@@ -347,7 +463,7 @@ class LinkedInJobFetcher:
                 job = self._fetch_detail(jid)
                 if job and self._keep(job, skip_keywords):
                     jobs.append(job)
-                _sleep(1.5, 3.0)  # polite delay between page loads
+                _sleep(1.0, 2.0)  # polite delay between page loads
 
             logger.info("Final job count after filtering: %d", len(jobs))
             return jobs

@@ -1,69 +1,48 @@
 === EXPERIENCE & SKILLS ===
-- PhD in Biomedical Science, National University of Singapore
-- 11+ years experience in computational biology, bioinformatics, and multi-omics analysis
-- Strong Python (pandas, scikit-learn, HuggingFace) and R (Seurat, DESeq2)
-- Single-cell genomics (scRNA-seq, CITE-seq, spatial transcriptomics, TCR/BCR repertoire analysis)
-- Machine learning applied to biological data (transformers such as scGPT/scBERT, Bayesian modeling, SHAP interpretation)
-- Pipeline and infrastructure development: Nextflow, Snakemake, Docker, AWS, HPC/SLURM, CI/CD
-- Multi-omics integration and translational bioinformatics for immunology and oncology
-- Familiar with PyTorch (intermediate), ML experimentation workflows, and transformer fine-tuning
-- Experience working closely with experimental biology teams and interpreting wet-lab results
+- PhD or Master's in [your field, e.g. Computational Biology, Bioinformatics, Computer Science]
+- X+ years experience in [your domain, e.g. bioinformatics, data science, computational biology]
+- Programming languages: [e.g. Python (pandas, scikit-learn), R (DESeq2, Seurat)]
+- Domain expertise: [e.g. single-cell genomics, proteomics, machine learning on biological data]
+- Infrastructure: [e.g. Nextflow, Docker, AWS, HPC/SLURM]
+- Any other key technical skills relevant to the roles you want
 
 === CAREER HISTORY (SHORT SUMMARY) ===
-- Senior Scientist, Bioinformatics — BioNTech SE (2023–2025)
-  Focus: TCR repertoire analysis, single-cell multi-omics, spatial transcriptomics (Visium HD), transformer models for immune cell analysis, large-scale pipelines.
-  Led development of an IP-evaluated spatial TCR detection assay adopted by multiple internal programs.
+- [Most recent title] — [Company] ([Year]–[Year])
+  One sentence about what you worked on and any notable impact.
 
-- Expert Scientist, Data Science & Computational Vaccinology — GSK (2021–2023)
-  Founded and led a global single-cell genomics working group (≈15 scientists).
-  Developed multi-omics workflows integrating CITE-seq, BCR-seq, and transcriptomic data.
+- [Previous title] — [Company] ([Year]–[Year])
+  One sentence about responsibilities.
 
-- Computational Genomics Specialist — NIH (2019–2021)
-  Built RNA-seq and spatial transcriptomics pipelines and led internal workshops.
-  Received NIH Service Excellence Award (2021).
-
-- Postdoctoral Fellow — Johns Hopkins University (2014–2019)
-  Developed end-to-end single-nucleus RNA-seq workflows from library preparation through analysis.
-  Mentored interns and graduate students.
-
-- Research Fellow — A*STAR Singapore (2010–2014)
-  Neural stem cell research, microarray analysis, organoid culture (intestinal and neural).
+- [Earlier title] — [Institution] ([Year]–[Year])
+  One sentence about responsibilities.
 
 === PUBLICATIONS & OPEN SOURCE ===
-- 11 peer-reviewed publications including Cell, Cell Stem Cell, JCI, and JITC
-- Open source project: scrna_longtransformer (GitHub: github.com/zhuy16/scrna_longformer)
+- [Number] peer-reviewed publications in [journals/fields]
+- Notable open-source contributions (optional): [GitHub links]
 
 === TARGET ROLES ===
-- Senior / Principal Computational Biologist
-- Senior Bioinformatics Scientist
-- AI / Machine Learning Scientist in biotechnology or healthcare
-- Data Scientist roles focused on biomedical research or drug discovery
-- Director-track computational biology roles in pharma/biotech
+- [e.g. Senior Computational Biologist]
+- [e.g. Principal Bioinformatics Scientist]
+- [e.g. ML Scientist, Healthcare AI]
 
 === PREFERRED INDUSTRIES ===
-- Biotechnology
-- Pharmaceutical R&D
-- Cell therapy / immunotherapy
-- Precision medicine and genomics companies
-- Healthcare AI applied to biological or clinical data
+- [e.g. Biotechnology]
+- [e.g. Pharmaceutical R&D]
+- [e.g. Healthcare AI]
 
 === NOT INTERESTED IN ===
-- Generic product analytics or ERP data science
-- Pure software engineering roles with no biological domain
-- Internships or junior (<2 years experience) positions
-- Short-term contracts (<6 months) unless strongly relevant
+- [e.g. Pure software engineering with no domain work]
+- [e.g. Internships or junior-level positions]
+- [e.g. Short-term contracts under 6 months]
 
 === LOCATION PREFERENCES ===
-- Remote or hybrid strongly preferred
-- Based in Ellicott City, Maryland
-- Open to weekly commuting arrangements (e.g., Boston or other biotech hubs)
-- Cannot permanently relocate due to family commitments
+- Remote or hybrid preferred / on-site acceptable / etc.
+- Based in [City, State]
+- [Any relocation notes, e.g. "Cannot relocate due to family commitments"]
 
 === SALARY EXPECTATIONS ===
-- Target base salary approximately $150k–$200k depending on role seniority
+- Target base salary approximately $[MIN]k–$[MAX]k depending on role seniority
 
 === CURRENT STATUS ===
-- Actively seeking new opportunities since late 2025 following company-wide layoffs
-- 11+ years of experience across academia, government research, and biotech/pharma
-- Particularly interested in roles combining AI/ML with single-cell genomics, immunology, or drug discovery
-- Rare combination of wet-lab NGS experience and computational ML expertise
+- [e.g. Actively seeking new opportunities since Month Year]
+- [Any context about what makes you uniquely valuable for the roles you want]

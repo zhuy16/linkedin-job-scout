@@ -27,27 +27,27 @@
   <key>ProgramArguments</key>
   <array>
     <!-- ← UPDATE: absolute path to the python inside your venv -->
-    <string>/Users/YOUR_USERNAME/Documents/gitrepos/LinkedIn_JobSearch/.venv/bin/python</string>
+    <string>/Users/yunhuazhu/Documents/gitrepos/LinkedIn_JobSearch/.venv/bin/python</string>
     <string>run.py</string>
     <string>--headless</string>
   </array>
 
   <!-- ← UPDATE: absolute path to the project root -->
   <key>WorkingDirectory</key>
-  <string>/Users/YOUR_USERNAME/Documents/gitrepos/LinkedIn_JobSearch</string>
+  <string>/Users/yunhuazhu/Documents/gitrepos/LinkedIn_JobSearch</string>
 
   <!-- Run daily at 08:30 AM local time -->
   <key>StartCalendarInterval</key>
   <dict>
     <key>Hour</key>   <integer>8</integer>
-    <key>Minute</key> <integer>30</integer>
+    <key>Minute</key> <integer>00</integer>
   </dict>
 
   <!-- Log stdout/stderr to the data/ folder (gitignored) -->
   <key>StandardOutPath</key>
-  <string>/Users/YOUR_USERNAME/Documents/gitrepos/LinkedIn_JobSearch/data/launchd.log</string>
+  <string>/Users/yunhuazhu/Documents/gitrepos/LinkedIn_JobSearch/data/launchd.log</string>
   <key>StandardErrorPath</key>
-  <string>/Users/YOUR_USERNAME/Documents/gitrepos/LinkedIn_JobSearch/data/launchd.err</string>
+  <string>/Users/yunhuazhu/Documents/gitrepos/LinkedIn_JobSearch/data/launchd.err</string>
 
   <!-- Do NOT run immediately when loaded (only on schedule) -->
   <key>RunAtLoad</key>
