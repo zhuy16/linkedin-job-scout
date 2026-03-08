@@ -1,28 +1,44 @@
-# ── Search parameters ─────────────────────────────────────────────────────────
+# =============================================================================
+#  config/search.yaml — ALL personal customisation lives here
+#  This file is safe to commit (no passwords or personal details).
+#  After editing, run:  bash scripts/setup.sh  to apply schedule changes.
+# =============================================================================
 
-# LinkedIn keyword query (boolean syntax is supported in the search box)
+# ── 1. Job search keywords ────────────────────────────────────────────────────
+# LinkedIn boolean syntax: AND / OR / NOT, quotes for exact phrases.
+# Replace the example below with your own field and role types.
+# See: https://www.linkedin.com/help/linkedin/answer/a524335
 query: '("Bioinformatics" OR "Computational Biology") NOT ("intern" OR "tutor")'
 
-# Post-processing filter: skip any job whose title OR description contains these words.
-# Catches roles that slip past the NOT clause in the query string.
+# Belt-and-suspenders filter applied AFTER fetching.
+# Any job whose title or description contains these words is dropped.
 skip_keywords:
   - "intern"
   - "internship"
   - "tutor"
   - "tutoring"
 
-# How many days back to search (1 = jobs posted in the last 24 h)
-# Use 3 on weekends when fewer jobs are posted daily
-days_back: 3
-
-# Maximum number of jobs to fetch and score per run
-max_jobs: 25
-
-# ── Scoring ───────────────────────────────────────────────────────────────────
-
-# Only send an email alert if fit_score >= this value (0–100)
+# ── 2. Scoring threshold ──────────────────────────────────────────────────────
+# Only email jobs where the LLM fit score is AT OR ABOVE this value (0–100).
+# 60 is a good starting point. Lower it temporarily if you want to see more
+# results while tuning your profile_summary.txt.
 fit_threshold: 60
 
-# Anthropic model to use for scoring.
-# Check https://docs.anthropic.com/en/docs/about-claude/models for the latest model IDs.
+# ── 3. Search window & job cap ────────────────────────────────────────────────
+# days_back: how far back to search (1 = last 24 h; use 3 on weekends)
+# max_jobs:  cap on jobs scored per run — each scored job costs ~$0.01 in API
+days_back: 3
+max_jobs: 25
+
+# ── 4. LLM model ─────────────────────────────────────────────────────────────
+# Latest model IDs: https://docs.anthropic.com/en/docs/about-claude/models
+# claude-sonnet-4-5 gives the best cost/quality balance for job scoring.
+# Approximate cost: ~$0.003 per job scored (3/10ths of a cent).
 llm_model: "claude-sonnet-4-5"
+
+# ── 5. Daily schedule (macOS only) ───────────────────────────────────────────
+# Time to run the job scout automatically each day (24-hour format).
+# After changing this, re-run:  bash scripts/setup.sh
+# Your Mac must be awake at this time (sleep will delay to next wake).
+schedule_hour: 8
+schedule_minute: 0
