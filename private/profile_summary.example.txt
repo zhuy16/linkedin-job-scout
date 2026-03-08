@@ -1,47 +1,69 @@
-══════════════════════════════════════════════════════════════════════════════
- CANDIDATE PROFILE — TEMPLATE
-══════════════════════════════════════════════════════════════════════════════
- Copy this file:  cp private/profile_summary.example.txt private/profile_summary.txt
- Then REPLACE the content below with your actual background.
- This file is gitignored — it is never uploaded to GitHub.
- The more specific and honest you are, the better the LLM scores.
-══════════════════════════════════════════════════════════════════════════════
-
 === EXPERIENCE & SKILLS ===
-- PhD in Computational Biology / Bioinformatics (or equivalent)
-- 5+ years experience in bioinformatics, single-cell genomics, immunology, oncology
-- Strong Python (pandas, numpy, scikit-learn, PyTorch) and R
-- Single-cell RNA-seq, ATAC-seq, spatial transcriptomics analysis and pipeline development
-- Familiarity with cloud platforms (AWS/GCP), HPC clusters, Snakemake/Nextflow
-- Growing focus on LLM/AI applications in biology and healthcare
+- PhD in Biomedical Science, National University of Singapore
+- 11+ years experience in computational biology, bioinformatics, and multi-omics analysis
+- Strong Python (pandas, scikit-learn, HuggingFace) and R (Seurat, DESeq2)
+- Single-cell genomics (scRNA-seq, CITE-seq, spatial transcriptomics, TCR/BCR repertoire analysis)
+- Machine learning applied to biological data (transformers such as scGPT/scBERT, Bayesian modeling, SHAP interpretation)
+- Pipeline and infrastructure development: Nextflow, Snakemake, Docker, AWS, HPC/SLURM, CI/CD
+- Multi-omics integration and translational bioinformatics for immunology and oncology
+- Familiar with PyTorch (intermediate), ML experimentation workflows, and transformer fine-tuning
+- Experience working closely with experimental biology teams and interpreting wet-lab results
+
+=== CAREER HISTORY (SHORT SUMMARY) ===
+- Senior Scientist, Bioinformatics — BioNTech SE (2023–2025)
+  Focus: TCR repertoire analysis, single-cell multi-omics, spatial transcriptomics (Visium HD), transformer models for immune cell analysis, large-scale pipelines.
+  Led development of an IP-evaluated spatial TCR detection assay adopted by multiple internal programs.
+
+- Expert Scientist, Data Science & Computational Vaccinology — GSK (2021–2023)
+  Founded and led a global single-cell genomics working group (≈15 scientists).
+  Developed multi-omics workflows integrating CITE-seq, BCR-seq, and transcriptomic data.
+
+- Computational Genomics Specialist — NIH (2019–2021)
+  Built RNA-seq and spatial transcriptomics pipelines and led internal workshops.
+  Received NIH Service Excellence Award (2021).
+
+- Postdoctoral Fellow — Johns Hopkins University (2014–2019)
+  Developed end-to-end single-nucleus RNA-seq workflows from library preparation through analysis.
+  Mentored interns and graduate students.
+
+- Research Fellow — A*STAR Singapore (2010–2014)
+  Neural stem cell research, microarray analysis, organoid culture (intestinal and neural).
+
+=== PUBLICATIONS & OPEN SOURCE ===
+- 11 peer-reviewed publications including Cell, Cell Stem Cell, JCI, and JITC
+- Open source project: scrna_longtransformer (GitHub: github.com/zhuy16/scrna_longformer)
 
 === TARGET ROLES ===
-- Computational Biologist / Bioinformatics Scientist (mid–senior level)
-- Senior Data Scientist with life-sciences focus
-- Machine Learning / Applied Scientist in healthcare or biotech
-- Research Scientist (computational, not purely wet-lab)
+- Senior / Principal Computational Biologist
+- Senior Bioinformatics Scientist
+- AI / Machine Learning Scientist in biotechnology or healthcare
+- Data Scientist roles focused on biomedical research or drug discovery
+- Director-track computational biology roles in pharma/biotech
 
 === PREFERRED INDUSTRIES ===
-- Biotechnology, pharma, diagnostics, precision medicine
-- Healthcare AI / digital health
-- Academic research (senior / faculty / staff scientist level)
+- Biotechnology
+- Pharmaceutical R&D
+- Cell therapy / immunotherapy
+- Precision medicine and genomics companies
+- Healthcare AI applied to biological or clinical data
 
 === NOT INTERESTED IN ===
-- Generic software engineering with no biology component
-- ERP, product analytics, or retail data science
-- Internships or short-term contracts (< 6 months)
-- Roles clearly aimed at fresh graduates (< 2 years experience expected)
+- Generic product analytics or ERP data science
+- Pure software engineering roles with no biological domain
+- Internships or junior (<2 years experience) positions
+- Short-term contracts (<6 months) unless strongly relevant
 
 === LOCATION PREFERENCES ===
 - Remote or hybrid strongly preferred
-- Open to on-site in [YOUR PREFERRED CITIES — e.g., Boston, San Francisco, Seattle]
-- Not willing to relocate to [YOUR EXCLUDED CITIES / REGIONS]
+- Based in Ellicott City, Maryland
+- Open to weekly commuting arrangements (e.g., Boston or other biotech hubs)
+- Cannot permanently relocate due to family commitments
 
 === SALARY EXPECTATIONS ===
-- [YOUR RANGE — e.g., $140k–$180k base + equity]
+- Target base salary approximately $150k–$200k depending on role seniority
 
-=== ADDITIONAL CONTEXT ===
-- Actively seeking new opportunities as of early 2026
-- Particularly excited about AI/ML applied to single-cell genomics and drug discovery
-- Peer-reviewed publications in computational biology and immunology
-- Looking for roles where computational work is central, not supporting
+=== CURRENT STATUS ===
+- Actively seeking new opportunities since late 2025 following company-wide layoffs
+- 11+ years of experience across academia, government research, and biotech/pharma
+- Particularly interested in roles combining AI/ML with single-cell genomics, immunology, or drug discovery
+- Rare combination of wet-lab NGS experience and computational ML expertise
